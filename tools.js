@@ -69,3 +69,31 @@ const dayOfYear = (date) => {
 dayOfYear(new Date(2022, 10, 27))
 
 
+/**
+ * 保留传入位小数
+ * 运算不做4舍5入操作
+ * @param numString 需要保留小数的数字字符串
+ * @param fixed 保留的小数位数
+ * @returns 保留指定小数位数后的字符串,如果小数位数大于保留的小数位数,则截取小数点两位有效数字,如果输入不是数字则返回null
+ */
+export const keepDecimal = (numString, fixed) => {
+  // 检查输入是否为数字
+  if (isNaN(numString) || numString === null || numString === '') {
+    return null
+  }
+
+  const [integerPart, decimalPart] = String(numString).split('.')
+
+  // 如果没有小数部分或保留位数为0，则直接返回整数部分
+  if (!decimalPart || fixed === 0) {
+    return integerPart
+  }
+
+  // 截取指定的小数位数，不进行四舍五入
+  const decimalPart2 = decimalPart.substring(0, fixed)
+
+  // 拼接整数和截取的小数部分
+  return integerPart + '.' + decimalPart2.padEnd(fixed, '0')
+}
+
+
